@@ -1,7 +1,5 @@
 # Face Detection Project
 
-![Project Preview](images/logo/image.png)
-
 Um sistema de reconhecimento facial em tempo real utilizando a biblioteca **face-api.js**, que detecta rostos e marca pontos faciais característicos.
 
 
