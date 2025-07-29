@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face detection</title>
+    <link rel="stylesheet" href="styles.css"> <!--faz a pagina pegar o estilização do arquivo styles.css -->
+</head>
+<body>
+    <h1><img src="images/logo/image.png" alt="Ícone" style="width: 100px; vertical-align: middle; margin-right: px;">
+        Face ID
+    </h1>
+    <div class="controlls">
+        <button id="startBtn">Iniciar Reconhecimento</button>
+        <button id="stopBtn">Finalizar</button>
+    </div>
+    <video id="video" autoplay muted></video> <!-- faz com que ele faça um video html sem som -->
+    <canvas id="overlay"></canvas> <!-- cria uma area de desenho 2D ou 3d com WebGL na pagina,  funciona como uma tela -->
+    <div id="snapshot-container"></div> <!-- onde sera exibido a foto tirada da camera -->
+<!-- Modelos importados-->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
