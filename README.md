@@ -30,8 +30,4 @@ face-detection/
 ## 🚀 Como Executar
 
 1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/seu-usuario/face-detection.git
-   ```
-
 2. Utilize o Live Server
