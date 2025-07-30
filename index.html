@@ -1,24 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face detection</title>
-    <link rel="stylesheet" href="styles.css"> <!--faz a pagina pegar o estilização do arquivo styles.css -->
+    <title>Sistema de Reconhecimento Facial</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <h1><img src="images/logo/image.png" alt="Ícone" style="width: 100px; vertical-align: middle; margin-right: px;">
-        Face ID
-    </h1>
-    <div class="controlls">
-        <button id="startBtn">Iniciar Reconhecimento</button>
-        <button id="stopBtn">Finalizar</button>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/logo/image.png" alt="Logo">
+                <h1>Face ID</h1>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li class="active" data-section="dashboard">
+                        <i class="fas fa-home"></i> <span>Dashboard</span>
+                    </li>
+                    <li data-section="register">
+                        <i class="fas fa-user-plus"></i> <span>Cadastrar</span>
+                    </li>
+                    <li data-section="users">
+                        <i class="fas fa-users"></i> <span>Usuários Cadastrados</span>
+                    </li>
+                    <li data-section="recognize">
+                        <i class="fas fa-search"></i> <span>Reconhecer</span>
+                    </li>
+                    <li data-section="history">
+                        <i class="fas fa-history"></i> <span>Histórico</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="theme-switcher">
+                <i class="fas fa-moon"></i> <span>Modo Escuro</span>
+            </div>
+        </aside>
+        <main class="main-content">
+            <!-- Seções vazias, só para navegação visual -->
+            <section id="dashboard" class="content-section active"></section>
+            <section id="register" class="content-section"></section>
+            <section id="users" class="content-section"></section>
+            <section id="recognize" class="content-section"></section>
+            <section id="history" class="content-section"></section>
+        </main>
     </div>
-    <video id="video" autoplay muted></video> <!-- faz com que ele faça um video html sem som -->
-    <canvas id="overlay"></canvas> <!-- cria uma area de desenho 2D ou 3d com WebGL na pagina,  funciona como uma tela -->
-    <div id="snapshot-container"></div> <!-- onde sera exibido a foto tirada da camera -->
-<!-- Modelos importados-->
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
