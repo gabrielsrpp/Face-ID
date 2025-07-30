@@ -1,133 +1,47 @@
-// Verifica se face-api.js foi carregado
-if (typeof faceapi === 'undefined') {
-    throw new Error("face-api.js não foi carregado corretamente!");
-}
+// Apenas navegação do menu lateral
 
-// Função principal assíncrona
-(async () => {
-    try {
-        console.log("Iniciando configuração...");
-        
-        // 1. Carrega modelos locais
-        await loadLocalModels();
-        
-        // 2. Inicia a câmera
-        await setupCamera();
-        
-        // 3. Configura controles
-        setupControls();
-        
-        console.log("Sistema pronto para uso!");
-    } catch (error) {
-        console.error("Erro na inicialização:", error);
-        alert(`Erro: ${error.message}`);
-    }
-})();
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavigation();
+    setupTheme();
+});
 
-// 1. Carrega modelos da pasta /models
-async function loadLocalModels() {
-    try {
-        console.log("Carregando modelos faciais...");
-        
-        // Versão otimizada para carregar apenas o necessário
-        await Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
-            faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
-            faceapi.nets.faceRecognitionNet.loadFromUri('./models')
-        ]);
-        
-        console.log("Modelos carregados com sucesso!");
-    } catch (error) {
-        throw new Error(`Falha ao carregar modelos: ${error.message}`);
-    }
-}
+// Configura navegação do menu
+function setupNavigation() {
+    const menuItems = document.querySelectorAll('.menu li');
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            menuItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
 
-// 2. Configuração da câmera
-async function setupCamera() {
-    const video = document.getElementById('video');
-    const overlay = document.getElementById('overlay');
-    
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { 
-                width: 640, 
-                height: 480,
-                facingMode: 'user' // Prioriza câmera frontal
-            } 
+            const sectionId = item.getAttribute('data-section');
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
         });
-        
-        video.srcObject = stream;
-        
-        // Espera o vídeo estar pronto
-        await new Promise((resolve) => {
-            video.onloadedmetadata = () => {
-                overlay.width = video.videoWidth;
-                overlay.height = video.videoHeight;
-                resolve();
-            };
-        });
-    } catch (error) {
-        throw new Error(`Erro na câmera: ${error.message}`);
-    }
-}
-
-// 3. Controles
-function setupControls() {
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    let isRunning = false;
-    let detectionInterval;
-
-    startBtn.addEventListener('click', () => {
-        if (isRunning) return;
-        
-        isRunning = true;
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
-        
-        console.log("Iniciando detecção...");
-        detectionInterval = setInterval(detectFaces, 100); // 10 FPS
-    });
-
-    stopBtn.addEventListener('click', () => {
-        if (!isRunning) return;
-        
-        isRunning = false;
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        
-        clearInterval(detectionInterval);
-        clearCanvas();
     });
 }
 
-// Detecção facial
-async function detectFaces() {
-    const video = document.getElementById('video');
-    const overlay = document.getElementById('overlay');
-    
-    try {
-        const detections = await faceapi.detectAllFaces(
-            video, 
-            new faceapi.TinyFaceDetectorOptions()
-        ).withFaceLandmarks();
-        
-        const resizedDetections = faceapi.resizeResults(detections, {
-            width: overlay.width,
-            height: overlay.height
-        });
-        
-        clearCanvas();
-        faceapi.draw.drawDetections(overlay, resizedDetections);
-        faceapi.draw.drawFaceLandmarks(overlay, resizedDetections);
-        
-    } catch (error) {
-        console.error("Erro na detecção:", error);
-    }
+// Configura tema claro/escuro
+function setupTheme() {
+    const themeSwitcher = document.querySelector('.theme-switcher');
+    const savedTheme = localStorage.getItem('faceTheme') || 'light';
+    document.body.classList.add(savedTheme + '-mode');
+    updateThemeButton();
+    themeSwitcher.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('light-mode');
+        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('faceTheme', currentTheme);
+        updateThemeButton();
+    });
 }
 
-// Limpa o canvas
-function clearCanvas() {
-    const ctx = document.getElementById('overlay').getContext('2d');
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+function updateThemeButton() {
+    const themeSwitcher = document.querySelector('.theme-switcher');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    themeSwitcher.innerHTML = `
+        <i class="fas fa-${isDarkMode ? 'sun' : 'moon'}"></i>
+        <span>${isDarkMode ? 'Modo Claro' : 'Modo Escuro'}</span>
+    `;
 }
