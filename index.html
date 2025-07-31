@@ -36,7 +36,7 @@
             <div class="theme-switcher">
                 <i class="fas fa-moon"></i> <span>Modo Escuro</span>
             </div>
-        </aside>
+        </aside>   
         <main class="main-content">
             <section id="dashboard" class="content-section active">
                 <div class="welcome-message">
@@ -55,13 +55,41 @@
                     <div id="registerStatus"></div>
                 </div>
             </section>
-            <section id="users" class="content-section"></section>
+            <section id="users" class="content-section">
+                <div class="users-list-header">
+                    <button id="refreshUsersBtn"><i class="fas fa-sync-alt"></i> Atualizar Lista</button>
+                </div>
+                <div id="usersListContainer"></div>
+            </section>
             <section id="recognize" class="content-section"></section>
             <section id="history" class="content-section"></section>
         </main>
+        <div id="successToast" class="success-toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="successToastMsg"></span>
+        </div>
     </div>
-    <!-- Carregar o face-api.js antes do script principal -->
-    <script src="face-api.min.js"></script>
+
+    <!-- Modal para edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Usuário</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="editUserName">Nome:</label>
+                <input type="text" id="editUserName" placeholder="Digite o novo nome">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel">Cancelar</button>
+                <button class="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Face-API.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.13/dist/face-api.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
