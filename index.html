@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Reconhecimento Facial</title>
+    <title>Face ID</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -38,14 +38,30 @@
             </div>
         </aside>
         <main class="main-content">
-            <!-- Seções vazias, só para navegação visual -->
-            <section id="dashboard" class="content-section active"></section>
-            <section id="register" class="content-section"></section>
+            <section id="dashboard" class="content-section active">
+                <div class="welcome-message">
+                    <h2>Bem Vindo ao Face ID</h2>
+                    <p>Utilize o menu para navegar pelo sistema</p>
+                </div>
+            </section>
+            <section id="register" class="content-section">
+                <div class="register-container">
+                    <h2>Cadastrar Novo Usuário</h2>
+                    <video id="registerVideo" width="320" height="240" autoplay muted></video>
+                    <div class="register-form">
+                        <input type="text" id="registerName" placeholder="Nome do usuário">
+                        <button id="captureBtn">Capturar Rosto</button>
+                    </div>
+                    <div id="registerStatus"></div>
+                </div>
+            </section>
             <section id="users" class="content-section"></section>
             <section id="recognize" class="content-section"></section>
             <section id="history" class="content-section"></section>
         </main>
     </div>
+    <!-- Carregar o face-api.js antes do script principal -->
+    <script src="face-api.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
