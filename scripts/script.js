@@ -1,8 +1,9 @@
-// Apenas navegação do menu lateral
-
-document.addEventListener('DOMContentLoaded', () => {
+// navegação do menu lateral
+document.addEventListener('DOMContentLoaded', async () => {
     setupNavigation();
     setupTheme();
+    await loadModels();
+    setupRegisterSection();
 });
 
 // Configura navegação do menu
@@ -18,8 +19,26 @@ function setupNavigation() {
                 section.classList.remove('active');
             });
             document.getElementById(sectionId).classList.add('active');
+
+            // Inicia a webcam ao ativar a aba de cadastro
+            if (sectionId === 'register') {
+                startRegisterCamera();
+            }
         });
     });
+}
+
+// Função para iniciar a câmera
+async function startRegisterCamera() {
+    const video = document.getElementById('registerVideo');
+    if (navigator.mediaDevices && video) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        } catch (err) {
+            alert('Erro ao acessar a câmera: ' + err.message);
+        }
+    }
 }
 
 // Configura tema claro/escuro
@@ -37,6 +56,44 @@ function setupTheme() {
     });
 }
 
+ async function setupRegisterSection() {
+    const video = document.getElementById('registerVideo');
+    const captureBtn = document.getElementById('captureBtn');
+    const statusDiv = document.getElementById('registerStatus');
+    const nameInput = document.getElementById('registerName');
+
+    if (!video || !captureBtn) return;
+
+    captureBtn.onclick = async () => {
+        statusDiv.textContent = '';
+        if (!nameInput.value) {
+            statusDiv.textContent = 'Digite o nome do usuário';
+            return;
+        }
+        // Captura frame do video
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        // detecta o rosto e extrai o embedding
+        const detection = await faceapi.detectSingleFace(canvas).withFaceLandmarks().withFaceDescriptor();
+        if (!detection) {
+            statusDiv.textContent = 'Nenhum rosto detectado!';
+            return;
+        }
+        // salva no LocalStorage
+        const users = JSON.parse(localStorage.getItem('faceUsers') || '[]');
+        users.push({
+            name: nameInput.value,
+            descriptor: Array.from(detection.descriptor)
+        });
+        localStorage.setItem('faceUsers', JSON.stringify(users));
+        statusDiv.textContent = 'Usuário cadastrado com sucesso!';
+        nameInput.value = '';
+    };
+}
+
+
 function updateThemeButton() {
     const themeSwitcher = document.querySelector('.theme-switcher');
     const isDarkMode = document.body.classList.contains('dark-mode');
@@ -44,4 +101,11 @@ function updateThemeButton() {
         <i class="fas fa-${isDarkMode ? 'sun' : 'moon'}"></i>
         <span>${isDarkMode ? 'Modo Claro' : 'Modo Escuro'}</span>
     `;
+}
+
+// Carregar modelos
+async function loadModels() {
+    await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+    await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
 }
