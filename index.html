@@ -69,7 +69,27 @@
             <span id="successToastMsg"></span>
         </div>
     </div>
-    <script src="face-api.min.js"></script>
+
+    <!-- Modal para edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Usuário</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="editUserName">Nome:</label>
+                <input type="text" id="editUserName" placeholder="Digite o novo nome">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel">Cancelar</button>
+                <button class="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Face-API.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.13/dist/face-api.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
