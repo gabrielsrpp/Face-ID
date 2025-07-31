@@ -3,6 +3,10 @@
 Um sistema de reconhecimento facial em tempo real utilizando a biblioteca **face-api.js**, que detecta rostos e marca pontos faciais característicos.
 
 
+<img width="1620" height="933" alt="image" src="https://github.com/user-attachments/assets/f0d84523-89a3-4a90-8d91-b4e5eca28bf2" />
+
+
+
 ## 🛠 Tecnologias Utilizadas
 
 - [face-api.js](https://github.com/justadudewhohacks/face-api.js) – Biblioteca de reconhecimento facial  
