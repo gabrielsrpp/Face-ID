@@ -61,7 +61,40 @@
                 </div>
                 <div id="usersListContainer"></div>
             </section>
-            <section id="recognize" class="content-section"></section>
+            <section id="recognize" class="content-section">
+                <div class="recognition-container">
+                    <h2>Reconhecimento Facial</h2>
+                    <div class="recognition-video-container">
+                        <video id="recognitionVideo" width="640" height="480" autoplay muted></video>
+                        <canvas id="recognitionCanvas" width="640" height="480"></canvas>
+                    </div>
+                    <div class="recognition-controls">
+                        <button id="startRecognitionBtn">
+                            <i class="fas fa-play"></i> Iniciar Reconhecimento
+                        </button>
+                        <button id="stopRecognitionBtn" style="display: none;">
+                            <i class="fas fa-stop"></i> Parar Reconhecimento
+                        </button>
+                    </div>
+                    <div id="recognitionStatus" class="recognition-status">
+                        Clique em "Iniciar Reconhecimento" para começar
+                    </div>
+                    <div class="recognition-info">
+                        <div class="info-card">
+                            <h4>Rostos Detectados</h4>
+                            <span id="facesCount">0</span>
+                        </div>
+                        <div class="info-card">
+                            <h4>Reconhecidos</h4>
+                            <span id="recognizedCount">0</span>
+                        </div>
+                        <div class="info-card">
+                            <h4>Última Detecção</h4>
+                            <span id="lastDetection">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section id="history" class="content-section"></section>
         </main>
         <div id="successToast" class="success-toast">
