@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupTheme();
     await loadModels();
     setupRegisterSection();
+    renderUsersList();
+    const refreshBtn = document.getElementById('refreshUsersBtn');
+    if (refreshBtn) refreshBtn.onclick = renderUsersList;
 });
 
 // Configura navegação do menu
@@ -24,8 +27,31 @@ function setupNavigation() {
             if (sectionId === 'register') {
                 startRegisterCamera();
             }
+            // Rendereiza users cadastrados ao ativar a aba
+            if (sectionId === 'users') {
+                renderUsersList();
+            }
         });
     });
+}
+
+// Função para renderizar a lista dos usúarios
+function renderUsersList() {
+    const usersSection = document.getElementById('usersListContainer');
+    const users = JSON.parse(localStorage.getItem('faceUsers') || '[]');
+    let html = '';
+    if (!users.length) {
+        html = `<div class="users-list"><p>Nenhum usuário cadastrado.</p></div>`;
+    } else {
+        html = `
+        <div class="users-list">
+            <h2>Usuários Cadastrados</h2>
+            <ul>
+                ${users.map(user => `<li>${user.name}</li>`).join('')}
+            </ul>
+        </div>`;
+    }
+    usersSection.innerHTML = html;
 }
 
 // Função para iniciar a câmera
@@ -90,9 +116,21 @@ function setupTheme() {
         localStorage.setItem('faceUsers', JSON.stringify(users));
         statusDiv.textContent = 'Usuário cadastrado com sucesso!';
         nameInput.value = '';
+        showSuccessToast('Usuário cadastrado com sucesso!');
+        renderUsersList();
     };
 }
 
+// Toast de sucesso
+function showSuccessToast(msg) {
+    const toast = document.getElementById('successToast');
+    const toastMsg = document.getElementById('successToastMsg');
+    toastMsg.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
 
 function updateThemeButton() {
     const themeSwitcher = document.querySelector('.theme-switcher');

@@ -36,7 +36,7 @@
             <div class="theme-switcher">
                 <i class="fas fa-moon"></i> <span>Modo Escuro</span>
             </div>
-        </aside>
+        </aside>   
         <main class="main-content">
             <section id="dashboard" class="content-section active">
                 <div class="welcome-message">
@@ -55,12 +55,20 @@
                     <div id="registerStatus"></div>
                 </div>
             </section>
-            <section id="users" class="content-section"></section>
+            <section id="users" class="content-section">
+                <div class="users-list-header">
+                    <button id="refreshUsersBtn"><i class="fas fa-sync-alt"></i> Atualizar Lista</button>
+                </div>
+                <div id="usersListContainer"></div>
+            </section>
             <section id="recognize" class="content-section"></section>
             <section id="history" class="content-section"></section>
         </main>
+        <div id="successToast" class="success-toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="successToastMsg"></span>
+        </div>
     </div>
-    <!-- Carregar o face-api.js antes do script principal -->
     <script src="face-api.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
