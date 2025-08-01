@@ -74,6 +74,10 @@ function setupNavigation() {
             if (sectionId === 'recognize') {
                 loadUsersForRecognition();
             }
+            // hisrtorico
+            if (sectionId === 'history') {
+            renderHistory();
+            }
         });
     });
 }
@@ -270,6 +274,34 @@ async function startRecognitionCamera() {
     return false;
 }
 
+// Função para historico
+async function saveDetectionHistory(userName, photo) {
+    try {
+        await fetch(`${API_BASE_URL}/history`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userName, photo })
+        });
+    } catch (e) {
+        console.warn('Falha ao registrar histórico:', e);
+    }
+}
+
+// Função para limpar o historico
+async function clearHistory() {
+    if (!confirm('Tem certeza que deseja apagar todo o histórico de detecções?')) return;
+    try {
+        await fetch(`${API_BASE_URL}/history`, { method: 'DELETE' });
+        renderHistory();
+        showSuccessToast('Histórico limpo com sucesso!');
+    } catch (e) {
+        alert('Erro ao limpar histórico!');
+    }
+}
+
+// No final da função renderHistory() ou após o DOMContentLoaded:
+document.getElementById('clearHistoryBtn').onclick = clearHistory;
+
 // Configurar seção de reconhecimento
 function setupRecognitionSection() {
     const startBtn = document.getElementById('startRecognitionBtn');
@@ -313,6 +345,68 @@ async function startRecognition() {
     // Iniciar loop de reconhecimento
     recognitionInterval = setInterval(performRecognition, 100);
 }
+
+async function fetchHistory() {
+    const res = await fetch(`${API_BASE_URL}/history`);
+    return await res.json();
+}
+
+async function renderHistory() {
+    const container = document.getElementById('historyList');
+    container.innerHTML = 'Carregando...';
+    let history = [];
+    try {
+        history = await fetchHistory();
+    } catch (e) {
+        container.innerHTML = '<p>Erro ao carregar histórico.</p>';
+        return;
+    }
+    if (!history || !Array.isArray(history) || !history.length) {
+        container.innerHTML = '<p>Nenhum registro encontrado.</p>';
+        return;
+    }
+    container.innerHTML = history.map((entry, idx) => `
+        <div class="history-entry">
+            <img src="${entry.photo || 'images/logo/image.png'}" 
+                 class="history-photo" 
+                 alt="Foto do rosto reconhecido"
+                 style="cursor:pointer;" 
+                 data-imgidx="${idx}">
+            <div class="history-info">
+                <div class="history-name">${entry.userName}</div>
+                <div class="history-date">${new Date(entry.date).toLocaleString('pt-BR')}</div>
+            </div>
+        </div>
+    `).join('');
+
+    // Adiciona evento de clique nas fotos para ampliar
+    document.querySelectorAll('.history-photo').forEach(img => {
+        img.onclick = function() {
+            const idx = parseInt(this.getAttribute('data-imgidx'));
+            openHistoryImageModal(history[idx].photo);
+        };
+    });
+}
+
+// Função de modal (coloque fora da renderHistory)
+function openHistoryImageModal(photo) {
+    const modal = document.getElementById('historyImageModal');
+    const img = document.getElementById('historyImageModalImg');
+    img.src = photo;
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+}
+document.getElementById('closeHistoryImageModal').onclick = function() {
+    document.getElementById('historyImageModal').classList.remove('show');
+    document.getElementById('historyImageModal').style.display = 'none';
+};
+// Fechar ao clicar fora do modal
+document.getElementById('historyImageModal').onclick = function(e) {
+    if (e.target === this) {
+        this.classList.remove('show');
+        this.style.display = 'none';
+    }
+};
 
 // Parar reconhecimento
 function stopRecognition() {
@@ -400,6 +494,18 @@ async function performRecognition() {
                     ctx.strokeStyle = '#1761e6';
                     ctx.lineWidth = 3;
                     ctx.strokeRect(box.x, box.y, box.width, box.height);
+                    // Captura a foto do rosto reconhecido
+                    const faceCanvas = document.createElement('canvas');
+                    faceCanvas.width = box.width;
+                    faceCanvas.height = box.height;
+                    faceCanvas.getContext('2d').drawImage(
+                    video,
+                    box.x, box.y, box.width, box.height,
+                    0, 0, box.width, box.height
+                );
+                const facePhoto = faceCanvas.toDataURL('image/jpeg', 0.8);
+                // Salva no histórico (opcional: use debounce para não salvar várias vezes por segundo)
+                saveDetectionHistory(label, facePhoto);
                     
                     // Fundo para o texto
                     ctx.fillStyle = '#1761e6';

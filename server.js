@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// Schema do histórico
+const historySchema = new mongoose.Schema({
+    userName: String,
+    date: { type: Date, default: Date.now },
+    photo: String // base64 da imagem do rosto reconhecido
+});
+const History = mongoose.model('History', historySchema);
+
 const User = mongoose.model('User', userSchema);
 
 // Conectar ao MongoDB
@@ -174,8 +182,40 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
+// POST - Registrar detecção no histórico
+app.post('/api/history', async (req, res) => {
+    try {
+        const { userName, photo } = req.body;
+        const entry = new History({ userName, photo });
+        await entry.save();
+        res.status(201).json({ message: 'Histórico registrado' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao registrar histórico' });
+    }
+});
+
+// GET - Listar histórico
+app.get('/api/history', async (req, res) => {
+    try {
+        const history = await History.find().sort({ date: -1 }).limit(100);
+        res.json(history);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar histórico' });
+    }
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
     console.log(`📁 Acesse: http://localhost:${PORT}`);
+});
+
+// DELETE - Limpar todo o histórico
+app.delete('/api/history', async (req, res) => {
+    try {
+        await History.deleteMany({});
+        res.json({ message: 'Histórico limpo com sucesso' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao limpar histórico' });
+    }
 });
