@@ -23,12 +23,8 @@ Ideal para demonstrações, controle de acesso e aprendizado sobre reconheciment
 
 ## Imagem do Sistema
 
-Adicione um `screenshot` ou GIF do seu sistema aqui:
+<img width="1897" height="937" alt="image" src="https://github.com/user-attachments/assets/35164f3c-088a-46a8-8613-36efd25bba16" />
 
-```md
-<img width="1897" height="937" alt="image" src="https://github.com/user-attachments/assets/c126ec7c-271c-4635-9499-b2626ce00b59" />
-
-```
 
 ---
 
