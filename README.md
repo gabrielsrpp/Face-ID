@@ -1,37 +1,112 @@
-# Face Detection Project
+# Face ID – Reconhecimento Facial Web
 
-Um sistema de reconhecimento facial em tempo real utilizando a biblioteca **face-api.js**, que detecta rostos e marca pontos faciais característicos.
+![Demonstração do sistema](<img width="1897" height="937" alt="image" src="https://github.com/user-attachments/assets/3157f37a-afdc-4622-b5cc-6ca41140fcb7" />)
 
+## Sobre o Projeto
 
-<img width="1620" height="933" alt="image" src="https://github.com/user-attachments/assets/f0d84523-89a3-4a90-8d91-b4e5eca28bf2" />
+Face ID é um sistema web de reconhecimento facial para cadastro, identificação e histórico de detecções de pessoas pela webcam do navegador. Utiliza Node.js, Express, MongoDB, e a biblioteca [face-api.js](https://github.com/justadudewhohacks/face-api.js) no frontend.
 
+Ideal para demonstrações, controle de acesso e aprendizado sobre reconhecimento facial com JavaScript.
 
+---
 
-## 🛠 Tecnologias Utilizadas
+## Funcionalidades
 
-- [face-api.js](https://github.com/justadudewhohacks/face-api.js) – Biblioteca de reconhecimento facial  
-- **HTML5 & CSS3** – Estrutura e estilização  
-- **JavaScript (ES6+)** – Lógica da aplicação  
+- Cadastro de usuários com nome e foto capturada da webcam
+- Reconhecimento facial em tempo real (webcam)
+- Histórico de detecções com data, hora, nome e foto da detecção
+- Visualização ampliada da imagem da detecção no histórico
+- Limpeza rápida do histórico de detecções
+- Edição e exclusão de usuários cadastrados
+- Interface responsiva, tema claro/escuro
 
-## 📦 Estrutura de Arquivos
+---
 
-```bash
-face-detection/
-├── models/ # Modelos pré-treinados
-│ ├── tiny_face_detector_model-*
-│ ├── face_landmark_68_model-*
-│ └── face_recognition_model-*
-├── images/
-│ └── logo/
-│ └── image.png # Ícone do projeto
-├── scripts/
-│ └── script.js # Lógica da aplicação
-├── index.html # Página principal
-└── styles.css # Estilos da página
+## Imagem do Sistema
+
+Adicione um `screenshot` ou GIF do seu sistema aqui:
+
+```md
+![Screenshot](CAMINHO/DA/IMAGEM_DEMO.png)
 ```
 
+---
 
-## 🚀 Como Executar
+## Instalação
 
-1. **Clone o repositório:**
-2. Utilize o Live Server
+### 1. Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (v14+ recomendado)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (ou local)
+- Uma webcam
+
+### 2. Clone o repositório
+
+```bash
+git clone https://github.com/SEU_USUARIO/face-id.git
+cd face-id
+```
+
+### 3. Instale as dependências
+
+```bash
+npm install
+```
+
+### 4. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```
+MONGODB_URI=suaconexaomongodb
+PORT=3000
+```
+
+> **Dica:** Para MongoDB Atlas, use a string de conexão fornecida no painel.
+
+### 5. Rode o servidor
+
+```bash
+node server.js
+npm start
+# ou com nodemon:
+nodemon server.js
+```
+
+O servidor rodará em [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Uso
+
+1. Acesse [http://localhost:3000](http://localhost:3000) no navegador.
+2. Cadastre um usuário com a webcam.
+3. Vá em “Reconhecer” e posicione-se para ser identificado.
+4. Consulte o histórico em “Histórico”, clique na imagem para ampliar ou limpe o histórico conforme necessário.
+
+---
+
+## Estrutura do Projeto
+
+```
+face-id/
+├── images/             # Imagens do sistema
+├── scripts/
+│   └── script.js       # Lógica do frontend
+├── styles.css          # Estilos gerais
+├── server.js           # Backend Node.js / Express
+├── package.json
+├── .env.example
+└── README.md
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- **Frontend:** HTML, CSS, JavaScript (face-api.js)
+- **Backend:** Node.js, Express
+- **Banco de Dados:** MongoDB (Mongoose)
+- **Outros:** Font Awesome, CDN face-api.js
+
+---
