@@ -1,6 +1,5 @@
 # Face ID – Reconhecimento Facial Web
 
-![Demonstração do sistema](<img width="1897" height="937" alt="image" src="https://github.com/user-attachments/assets/3157f37a-afdc-4622-b5cc-6ca41140fcb7" />)
 
 ## Sobre o Projeto
 
@@ -27,7 +26,8 @@ Ideal para demonstrações, controle de acesso e aprendizado sobre reconheciment
 Adicione um `screenshot` ou GIF do seu sistema aqui:
 
 ```md
-![Screenshot](CAMINHO/DA/IMAGEM_DEMO.png)
+<img width="1897" height="937" alt="image" src="https://github.com/user-attachments/assets/c126ec7c-271c-4635-9499-b2626ce00b59" />
+
 ```
 
 ---
