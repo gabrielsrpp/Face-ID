@@ -64,6 +64,7 @@ PORT=3000
 
 ```bash
 node server.js
+# ou com:
 npm start
 # ou com nodemon:
 nodemon server.js
