@@ -107,3 +107,9 @@ face-id/
 - **Outros:** Font Awesome, CDN face-api.js
 
 ---
+
+## É possivel mudar a porcentagem de reconhecimento atravez da linha:
+```bash
+const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.4); // atualmente em 0.4 ele detecta entre 60% para cima abaixo disto ele não reconhece |aqui fica a porcentagem que voce quer para detectção | 0.6	~50% | 0.5	~65% | 0.45	~75% | 0.4	~85%
+// 0.45 para só reconhecer se for mais ou menos 70% ou mais. não é um calcuilo exato é geralmente o valor entre ou mais proximo.   
+```
